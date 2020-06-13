@@ -8,3 +8,7 @@ edition = "2018"
 
 [dependencies]
 snafu = "0.6.8"
+
+[dev-dependencies]
+lazy_static = "1.4.0"
+tokio-test = "*"

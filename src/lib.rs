@@ -5,16 +5,16 @@ use std::any::Any;
 use snafu::{ResultExt, Snafu};
 use std::{fs, io, path::PathBuf};
 
-pub struct PeregrineDB (Arc<RwLock<HashMap<String, String>>>);
+pub struct PeregrineDB (pub Arc<RwLock<HashMap<String, String>>>);
 
 impl PeregrineDB {
-    fn new() -> PeregrineDB {
+    pub fn new() -> PeregrineDB {
         return load().expect("Could not create the database");
     }
-    fn start(&self) {
+    pub fn start(&self) {
         // database init
     }
-    async fn read(&self, keys: Vec<String>) -> Result<HashMap<String, String>, PeregrineError> {
+    pub async fn read(&self, keys: Vec<String>) -> Result<HashMap<String, String>, PeregrineError> {
         // borrow the HashMap sharingly
         let RW = Arc::clone(&self.0);
         let HM = RW.read().unwrap();
@@ -28,7 +28,7 @@ impl PeregrineDB {
         }
         Ok(response)
     }
-    async fn write(&self, map: HashMap<String, String>) -> Result<HashMap<String, String>, PeregrineError> {
+    pub async fn write(&self, map: HashMap<String, String>) -> Result<HashMap<String, String>, PeregrineError> {
         // exclusively lease the HashMap
         let RW = Arc::clone(&self.0);
         let mut HM = RW.write().unwrap();
@@ -36,6 +36,8 @@ impl PeregrineDB {
             HM.entry(key.to_string()).and_modify(|e| { *e = val.to_string() }).or_insert(val.to_string());
         }
         Ok(map)
+    }
+    pub async fn save(&self) {
     }
 }
 
@@ -52,16 +54,6 @@ pub enum PeregrineError {
 }
 
 type Result<T, E = PeregrineError> = std::result::Result<T, E>;
-
-pub fn save(db: &'static PeregrineDB) -> Result<(), PeregrineError> {
-    // save to disk async - Move this to it's own thread
-    let writer = thread::spawn(move || -> Result<(), PeregrineError> {
-        write_to_disk(db)?;
-        Ok(())
-    });
-    let result = writer.join().unwrap()?;
-    Ok(())
-}
 
 // exposed for advanced usage
 pub fn load() -> Result<PeregrineDB, PeregrineError> {
