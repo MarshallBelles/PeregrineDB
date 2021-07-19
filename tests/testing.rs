@@ -13,7 +13,7 @@ mod tests {
         ($e:expr) => {
             tokio_test::block_on($e)
         };
-      }    
+    }
 
     #[test]
     fn setup_test() {
