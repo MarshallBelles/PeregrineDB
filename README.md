@@ -58,5 +58,3 @@ user@localhost example % cargo run
 [2021-07-19T19:49:21Z INFO  example] Read data
 [2021-07-19T19:49:21Z INFO  example] {"hello": "world"} == {"hello": "world"}
 ```
-
-#### Documentation is a work in progress, this is a very simple implementation of an in-memory database which is really just a thread-safe wrapper of a HashMap
