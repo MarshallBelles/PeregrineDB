@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Marshall Belles"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
-keywords = ["db","database","hash","table","store","storage"]
+keywords = ["db","database","hash","table","store"]
 include = ["src/lib.rs", "Cargo.toml"]
 description = "Peregrine DB is an in-memory thread-safe data store library for Rust."
 repository = "https://github.com/MarshallBelles/PeregrineDB"
@@ -15,4 +15,4 @@ snafu = "0.6.8"
 
 [dev-dependencies]
 lazy_static = "1.4.0"
-tokio-test = "*"
+tokio-test = "0.4.2"
