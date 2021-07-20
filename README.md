@@ -5,7 +5,7 @@ Peregrine DB is an in-memory thread-safe data store library for Rust.
 In cargo.toml:
 ```
 [dependencies]
-peregrine_db = {git = "https://github.com/MarshallBelles/PeregrineDB"}
+peregrine_db = "0.1.0"
 ```
 
 In .rs:
